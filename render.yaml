@@ -14,11 +14,11 @@ services:
       - key: COOKIE_NAME
         value: jwt-dev
       - key: JWT_SECRET_KEY
-        value: MEEAMI123@ # Should be changed for production
+        sync: false
       - key: HTTPS
         value: true
       - key: ALLOWED_ORIGINS
-        value: http://local.meeamitech.com:3000,http://localhost:3000
+        value: https://your-production-domain.com,https://api.your-production-domain.com
       - key: AUTH_SERVICE_URL
         fromService:
           name: auth-service
