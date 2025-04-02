@@ -1,0 +1,85 @@
+services:
+  - type: web
+    name: api-gateway
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd api-gateway && npm install && npm run build
+    startCommand: cd api-gateway && node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8500
+      - key: COOKIE_NAME
+        value: jwt-dev
+      - key: JWT_SECRET_KEY
+        value: MEEAMI123@ # Should be changed for production
+      - key: HTTPS
+        value: true
+      - key: ALLOWED_ORIGINS
+        value: http://local.meeamitech.com:3000,http://localhost:3000
+      - key: AUTH_SERVICE_URL
+        fromService:
+          name: auth-service
+          type: web
+          property: url
+      - key: UPLOAD_SERVICE_URL
+        fromService:
+          name: upload-service
+          type: web
+          property: url
+
+  - type: web
+    name: auth-service
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd auth-service && npm install && npm run build
+    startCommand: cd auth-service && node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8501
+      - key: MONGODB_URL
+        sync: false
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: COOKIE_NAME
+        value: jwt-dev
+      - key: HTTPS
+        value: true
+
+  - type: web
+    name: upload-service
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd upload-service && npm install && npm run build
+    startCommand: cd upload-service && node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8502
+      - key: MONGO_URI
+        sync: false
+      - key: AWS_BUCKET_NAME
+        sync: false
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: REGION
+        value: ap-south-1
+      - key: ENVIRONMENT
+        value: production
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: COOKIE_NAME
+        value: jwt-dev
