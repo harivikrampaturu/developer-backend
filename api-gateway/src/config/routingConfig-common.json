@@ -1,0 +1,45 @@
+{
+    "authentication": {
+        "isDeprecated": false,
+        "checkAuthentication": false,
+        "rateLimitOptions": {},
+        "proxyOptions": {
+            "target": "http://localhost:8501",
+            "changeOrigin": false,
+            "pathFilter": ["/authentication/login", "/authentication/logout", "/authentication/validate-key"],
+            "pathRewrite": {
+                "^/authentication/login": "/login",
+                "^/authentication/logout": "/logout",
+                "^/authentication/validate-key": "/validate-key"
+            }
+        }
+    },
+    "auth": {
+        "isDeprecated": false,
+        "checkAuthentication": true,
+        "rateLimitOptions": {},
+        "proxyOptions": {
+            "target": "http://localhost:8501",
+            "changeOrigin": false,
+            "pathFilter": ["/auth/users", "/auth/apikeys", "/auth"],
+            "pathRewrite": {
+                "^/auth/users": "/users",
+                "^/auth/apikeys": "/apikeys",
+                "^/auth": "/"
+            }
+        }
+    },
+    "docs": {
+        "isDeprecated": false,
+        "checkAuthentication": true,
+        "rateLimitOptions": {},
+        "proxyOptions": {
+            "target": "http://localhost:8502",
+            "changeOrigin": false,
+            "pathFilter": ["/docs/uploads"],
+            "pathRewrite": {
+                "^/docs/uploads": "/uploads"
+            }
+        }
+    }
+}
